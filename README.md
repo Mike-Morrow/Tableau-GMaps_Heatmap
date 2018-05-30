@@ -5,5 +5,5 @@ Using [Tableau's JS API](https://onlinehelp.tableau.com/current/api/js_api/en-us
 
 See demo below using DC housing price data!
 
-![Alt Text](https://thumbs.gfycat.com/CelebratedLegalEyas-size_restricted.gif)
+![Alt Text](https://thumbs.gfycat.com/PertinentPleasantEastsiberianlaika-size_restricted.gif)
 
