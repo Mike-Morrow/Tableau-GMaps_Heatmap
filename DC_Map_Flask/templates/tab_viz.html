@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- bring in bootstrap and jquery (based on w3schools) -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- bring in tableau  -->
+  <script src="https://online.tableau.com/javascripts/api/tableau-2.min.js"></script>
+
+
+</head>
+
+<body>
+
+  <div id="vizContainer"></div>
+
+
+  <script>
+
+
+
+
+    document.getElementById("vizContainer").addEventListener("load", initViz());
+
+    function initViz() {
+      let containerDiv = document.getElementById("vizContainer"),
+      url = "https://us-east-1.online.tableau.com/t/mikestableausite/views/DCHousing/Sheet2?iframeSizedToWindow=true&:embed=y&:showAppBanner=false&:display_count=no&:showVizHome=no",
+      options = {
+        hideTabs: true,
+        onFirstInteractive: function () {
+          workbook = viz.getWorkbook();
+          activeSheet = workbook.getActiveSheet();
+          listenToMarksSelection();
+        }
+      };
+      viz = new tableau.Viz(containerDiv, url, options);
+    };
+
+    function listenToMarksSelection() {
+      viz.addEventListener(tableau.TableauEventName.MARKS_SELECTION, onMarksSelection);
+    }
+
+    function onMarksSelection(marksEvent) {
+      return marksEvent.getMarksAsync().then(reportSelectedMarks);
+
+    }
+
+    function reportSelectedMarks(marks) {
+      let html = ""; 
+      Lat_Lon_Array = [];
+
+      for (let entry of marks) {
+                    // console.log(typeof entry);
+                    // console.log(entry.length);
+                    //console.log(JSON.stringify(entry));
+                    let lat = entry["impl"]["$3"]["$3"]["_Latitude"]["value"];
+                    let lon = entry["impl"]["$3"]["$3"]["_Longitude"]["value"];
+                    // had to switch lat and lon
+                    Lat_Lon_Array.push([lon,lat]);
+                    // Lat_Lon_Array.push({"lat" : lon, "lng" : lat});
+
+                  }
+                // console.log(Lat_Lon_Array);
+                $.post("/get_marks", 
+                  {Lat_Lon_Array : JSON.stringify(Lat_Lon_Array)},
+                  function(){
+                    console.log(window.top.document.getElementById("gmap"));
+                    let iframe = window.top.document.getElementById("gmap");
+                    iframe.src = iframe.src;
+                    window.location = '/tab_viz.html'}
+                  )
+                // console.log(Lat_Lon_Array);
+
+              }
+
+            </script>
+
+          </body>
+
+          </html>
