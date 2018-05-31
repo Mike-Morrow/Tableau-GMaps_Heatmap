@@ -1,4 +1,4 @@
-# Tableau-GMaps_Heatmap
+# tableau_gmaps_heatmap
 Generate heatmaps with Tableau + Google Maps
 
 Using [Tableau's JS API](https://onlinehelp.tableau.com/current/api/js_api/en-us/JavaScriptAPI/js_api_ref.htm) + Google Maps, we can pass data from Tableau into an interactive heatmap rendered with Google Maps. 
